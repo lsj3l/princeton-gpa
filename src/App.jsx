@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { X, Plus, Trash2 } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import { X, Plus } from 'lucide-react';
 
 // Princeton Grading Scale mapping up to A (4.0)
 const GRADES = [
