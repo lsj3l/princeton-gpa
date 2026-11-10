@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { X, Plus } from 'lucide-react';
 
 // Princeton Grading Scale mapping up to A (4.0)
@@ -31,15 +31,51 @@ const generateInitialCourses = () => {
   }));
 };
 
-export default function App() {
-  const [semesters, setSemesters] = useState([
-    {
+const STORAGE_KEY = 'princeton-gpa:v1';
+
+const loadCalculator = () => {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    const valid = saved && Array.isArray(saved.semesters) && saved.semesters.length > 0
+      && saved.semesters.every(semester =>
+        semester && typeof semester.id === 'string' && typeof semester.name === 'string'
+        && Array.isArray(semester.courses) && semester.courses.every(course =>
+          course && typeof course.id === 'string' && typeof course.name === 'string'
+          && [0, 4, 8].includes(course.credits)
+          && Number.isInteger(course.gradeIndex)
+          && course.gradeIndex >= 0 && course.gradeIndex < GRADES.length));
+
+    if (valid) {
+      return {
+        semesters: saved.semesters,
+        activeSemId: saved.semesters.some(semester => semester.id === saved.activeSemId)
+          ? saved.activeSemId : saved.semesters[0].id,
+      };
+    }
+  } catch {
+    // Unavailable storage or invalid saved data should not prevent using the calculator.
+  }
+
+  const semesters = [{
       id: crypto.randomUUID(),
       name: SEMESTER_NAMES[0],
       courses: generateInitialCourses()
+  }];
+  return { semesters, activeSemId: semesters[0].id };
+};
+
+export default function App() {
+  const [initialCalculator] = useState(loadCalculator);
+  const [semesters, setSemesters] = useState(initialCalculator.semesters);
+  const [activeSemId, setActiveSemId] = useState(initialCalculator.activeSemId);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ semesters, activeSemId }));
+    } catch {
+      // Keep the calculator usable when browser storage is blocked or full.
     }
-  ]);
-  const [activeSemId, setActiveSemId] = useState(semesters[0].id);
+  }, [semesters, activeSemId]);
 
   // --- Logic & Calculations ---
 
