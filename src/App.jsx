@@ -13,10 +13,10 @@ import {
 const GRADES = [
   { letter: 'F', points: 0.0, label: 'Failing' },
   { letter: 'D', points: 1.0, label: 'Passing' },
-  { letter: 'C-', points: 1.7, label: 'Below Average' },
+  { letter: 'C-', points: 1.7, label: 'Below Avg' },
   { letter: 'C', points: 2.0, label: 'Average' },
   { letter: 'C+', points: 2.3, label: 'Satisfactory' },
-  { letter: 'B-', points: 2.7, label: 'Above Average' },
+  { letter: 'B-', points: 2.7, label: 'Above Avg' },
   { letter: 'B', points: 3.0, label: 'Good' },
   { letter: 'B+', points: 3.3, label: 'Very Good' },
   { letter: 'A-', points: 3.7, label: 'Excellent' },
@@ -107,7 +107,6 @@ export default function App() {
   };
 
   const activeSemester = semesters.find(s => s.id === activeSemId) || semesters[0];
-  const activeSemesterIndex = semesters.findIndex(s => s.id === activeSemId);
 
   const activeSemesterStats = useMemo(() => {
     return calculateGPAStats(activeSemester.courses);
@@ -258,69 +257,71 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#080808] text-[#f5f4f1] font-sans antialiased flex flex-col selection:bg-[#ed6829] selection:text-black">
+    <div className="min-h-screen bg-[#080808] text-[#f5f4f1] font-sans antialiased flex flex-col selection:bg-[#ed6829] selection:text-black overflow-x-hidden w-full max-w-full">
       {/* Top Header */}
-      <header className="border-b border-white/10 px-4 sm:px-8 py-4 bg-[#080808]">
-        <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <span className="w-2.5 h-2.5 bg-[#ed6829] inline-block" />
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-white">
-                  Princeton University
+      <header className="border-b border-white/10 px-3.5 sm:px-8 py-3.5 sm:py-4 bg-[#080808] sticky top-0 z-30">
+        <div className="max-w-5xl mx-auto flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+            <span className="w-2.5 h-2.5 bg-[#ed6829] shrink-0 inline-block" />
+            <div className="truncate">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span className="font-mono text-xs font-semibold uppercase tracking-[0.15em] sm:tracking-[0.2em] text-white whitespace-nowrap">
+                  Princeton
                 </span>
                 <span className="text-neutral-600 font-mono text-xs">/</span>
-                <span className="font-mono text-xs text-neutral-400 uppercase tracking-widest">
+                <span className="font-mono text-xs text-neutral-400 uppercase tracking-wider sm:tracking-widest whitespace-nowrap">
                   GPA Planner
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 shrink-0">
             <button
               onClick={handleCopySummary}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#111] hover:bg-[#181818] text-neutral-300 hover:text-white border border-white/10 text-[11px] font-mono uppercase tracking-wider transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 bg-[#111] hover:bg-[#181818] text-neutral-300 hover:text-white border border-white/10 text-[11px] font-mono uppercase tracking-wider transition-colors cursor-pointer"
+              title="Copy Summary"
             >
               {copied ? <Check className="w-3.5 h-3.5 text-[#ed6829]" /> : <Copy className="w-3.5 h-3.5 text-neutral-500" />}
-              <span>{copied ? 'Copied' : 'Copy'}</span>
+              <span className="hidden xs:inline sm:inline">{copied ? 'Copied' : 'Copy'}</span>
             </button>
 
             <button
               onClick={handleResetAll}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#111] hover:bg-[#181818] text-neutral-400 hover:text-neutral-200 border border-white/10 text-[11px] font-mono uppercase tracking-wider transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 bg-[#111] hover:bg-[#181818] text-neutral-400 hover:text-neutral-200 border border-white/10 text-[11px] font-mono uppercase tracking-wider transition-colors cursor-pointer"
+              title="Reset All"
             >
               <RotateCcw className="w-3 h-3 text-neutral-500" />
-              <span>Reset</span>
+              <span className="hidden xs:inline sm:inline">Reset</span>
             </button>
           </div>
         </div>
       </header>
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-5xl w-full mx-auto p-4 sm:p-8 space-y-8">
+      <main className="flex-1 max-w-5xl w-full mx-auto p-3.5 sm:p-8 space-y-6 sm:space-y-8 box-border">
 
         {/* Hero Architectural Stats Board */}
         <section className="border border-white/10 bg-[#0d0d0d] divide-y sm:divide-y-0 sm:divide-x divide-white/10 grid grid-cols-1 sm:grid-cols-2">
           {/* Cumulative GPA */}
-          <div className="p-6 sm:p-8 flex flex-col justify-between">
+          <div className="p-4 sm:p-8 flex flex-col justify-between">
             <div>
-              <div className="flex items-center justify-between mb-3">
-                <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-neutral-400">
+              <div className="flex items-center justify-between mb-2 sm:mb-3">
+                <span className="font-mono text-[10px] tracking-[0.15em] sm:tracking-[0.2em] uppercase text-neutral-400">
                   Cumulative GPA
                 </span>
                 <span className="font-mono text-[10px] text-neutral-400">
                   {cumulativeStats.totalCredits.toFixed(1)} Credits
                 </span>
               </div>
-              <div className="flex items-baseline gap-3">
+              <div className="flex items-baseline gap-2 sm:gap-3">
                 <span className="font-mono text-5xl sm:text-7xl font-light tracking-tight text-white">
                   {cumulativeStats.gpa}
                 </span>
-                <span className="font-mono text-sm text-neutral-400">/ 4.00</span>
+                <span className="font-mono text-xs sm:text-sm text-neutral-400">/ 4.00</span>
               </div>
             </div>
-            <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between font-mono text-[10px]">
+            <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-white/5 flex items-center justify-between font-mono text-[10px]">
               <span className="text-[#ed6829] font-medium tracking-wider">
                 {honorsLabel}
               </span>
@@ -331,26 +332,26 @@ export default function App() {
           </div>
 
           {/* Active Semester GPA */}
-          <div className="p-6 sm:p-8 flex flex-col justify-between bg-[#101010]">
+          <div className="p-4 sm:p-8 flex flex-col justify-between bg-[#101010]">
             <div>
-              <div className="flex items-center justify-between mb-3">
-                <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-neutral-400 flex items-center gap-1.5">
+              <div className="flex items-center justify-between mb-2 sm:mb-3">
+                <span className="font-mono text-[10px] tracking-[0.15em] sm:tracking-[0.2em] uppercase text-neutral-400 flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 bg-[#ed6829]" />
                   Active Semester
                 </span>
-                <span className="font-mono text-[10px] text-neutral-300 uppercase">
+                <span className="font-mono text-[10px] text-neutral-300 uppercase truncate max-w-[150px]">
                   {activeSemester.name}
                 </span>
               </div>
-              <div className="flex items-baseline gap-3">
+              <div className="flex items-baseline gap-2 sm:gap-3">
                 <span className="font-mono text-5xl sm:text-7xl font-light tracking-tight text-white">
                   {activeSemesterStats.gpa}
                 </span>
-                <span className="font-mono text-sm text-neutral-400">/ 4.00</span>
+                <span className="font-mono text-xs sm:text-sm text-neutral-400">/ 4.00</span>
               </div>
             </div>
-            <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between font-mono text-[10px] text-neutral-400">
-              <span>{activeSemesterStats.totalCredits.toFixed(1)} SEMESTER HRS</span>
+            <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-white/5 flex items-center justify-between font-mono text-[10px] text-neutral-400">
+              <span>{activeSemesterStats.totalCredits.toFixed(1)} HRS</span>
               <span>{activeSemester.courses.length} COURSES</span>
               <span>{activeSemesterStats.totalQualityPoints.toFixed(1)} PTS</span>
             </div>
@@ -358,108 +359,112 @@ export default function App() {
         </section>
 
         {/* Semester Timeline / Tabs */}
-        <section className="space-y-3">
+        <section className="space-y-2 sm:space-y-3">
           <div className="flex items-center justify-between">
             <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-400">
               Semesters
             </span>
             <button
               onClick={handleAddSemester}
-              className="flex items-center gap-1 text-[11px] font-mono text-[#ed6829] hover:text-[#ff8550] transition-colors cursor-pointer"
+              className="flex items-center gap-1 text-[11px] font-mono text-[#ed6829] hover:text-[#ff8550] transition-colors cursor-pointer py-1"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>Add Semester</span>
             </button>
           </div>
 
-          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
-            {semesters.map((sem, idx) => {
-              const isActive = activeSemId === sem.id;
-              const stats = calculateGPAStats(sem.courses);
-              const isEditing = editingSemesterId === sem.id;
+          <div className="relative">
+            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1 scroll-smooth">
+              {semesters.map((sem, idx) => {
+                const isActive = activeSemId === sem.id;
+                const stats = calculateGPAStats(sem.courses);
+                const isEditing = editingSemesterId === sem.id;
 
-              return (
-                <div
-                  key={sem.id}
-                  onClick={() => setActiveSemId(sem.id)}
-                  className={`group flex items-center gap-2.5 px-3.5 py-2.5 border text-xs font-mono transition-all cursor-pointer whitespace-nowrap ${
-                    isActive
-                      ? 'border-[#ed6829] bg-[#141414] text-white shadow-sm'
-                      : 'border-white/10 bg-[#0d0d0d] text-neutral-400 hover:text-neutral-200 hover:border-white/20'
-                  }`}
-                >
-                  <span className={`text-[10px] ${isActive ? 'text-[#ed6829]' : 'text-neutral-400'}`}>
-                    {String(idx + 1).padStart(2, '0')}
-                  </span>
-
-                  {isEditing ? (
-                    <input
-                      type="text"
-                      autoFocus
-                      value={editingSemesterName}
-                      onChange={(e) => setEditingSemesterName(e.target.value)}
-                      onBlur={handleSaveRename}
-                      onKeyDown={(e) => e.key === 'Enter' && handleSaveRename()}
-                      className="bg-black text-white border border-[#ed6829] px-1 py-0.5 outline-none font-mono text-xs w-28"
-                      onClick={(e) => e.stopPropagation()}
-                    />
-                  ) : (
-                    <span className="font-medium">
-                      {sem.name}
+                return (
+                  <div
+                    key={sem.id}
+                    onClick={() => setActiveSemId(sem.id)}
+                    className={`group flex items-center gap-2 px-3 py-2 sm:px-3.5 sm:py-2.5 border text-xs font-mono transition-all cursor-pointer whitespace-nowrap shrink-0 ${
+                      isActive
+                        ? 'border-[#ed6829] bg-[#141414] text-white shadow-sm'
+                        : 'border-white/10 bg-[#0d0d0d] text-neutral-400 hover:text-neutral-200 hover:border-white/20'
+                    }`}
+                  >
+                    <span className={`text-[10px] ${isActive ? 'text-[#ed6829]' : 'text-neutral-400'}`}>
+                      {String(idx + 1).padStart(2, '0')}
                     </span>
-                  )}
 
-                  <span className={`text-[11px] font-mono ${isActive ? 'text-white' : 'text-neutral-400'}`}>
-                    {stats.gpa}
-                  </span>
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        autoFocus
+                        value={editingSemesterName}
+                        onChange={(e) => setEditingSemesterName(e.target.value)}
+                        onBlur={handleSaveRename}
+                        onKeyDown={(e) => e.key === 'Enter' && handleSaveRename()}
+                        className="bg-black text-white border border-[#ed6829] px-1 py-0.5 outline-none font-mono text-xs w-28"
+                        onClick={(e) => e.stopPropagation()}
+                      />
+                    ) : (
+                      <span className="font-medium">
+                        {sem.name}
+                      </span>
+                    )}
 
-                  {isActive && !isEditing && (
-                    <button
-                      onClick={(e) => handleStartRename(sem, e)}
-                      className="opacity-0 group-hover:opacity-100 hover:text-white p-0.5 text-neutral-500 transition-opacity"
-                      title="Rename"
-                    >
-                      <Edit3 className="w-3 h-3" />
-                    </button>
-                  )}
+                    <span className={`text-[11px] font-mono ${isActive ? 'text-white font-semibold' : 'text-neutral-400'}`}>
+                      {stats.gpa}
+                    </span>
 
-                  {semesters.length > 1 && (
-                    <button
-                      onClick={(e) => handleRemoveSemester(sem.id, e)}
-                      className="opacity-0 group-hover:opacity-100 hover:text-rose-400 p-0.5 text-neutral-500 transition-opacity"
-                      title="Remove"
-                    >
-                      <X className="w-3 h-3" />
-                    </button>
-                  )}
-                </div>
-              );
-            })}
+                    {isActive && !isEditing && (
+                      <button
+                        onClick={(e) => handleStartRename(sem, e)}
+                        className="p-1 text-neutral-400 hover:text-white transition-opacity"
+                        title="Rename"
+                      >
+                        <Edit3 className="w-3 h-3" />
+                      </button>
+                    )}
+
+                    {semesters.length > 1 && (
+                      <button
+                        onClick={(e) => handleRemoveSemester(sem.id, e)}
+                        className="p-1 text-neutral-400 hover:text-rose-400 transition-colors"
+                        title="Remove"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+            {/* Subtle overflow fade indicator on mobile */}
+            <div className="pointer-events-none absolute right-0 top-0 bottom-1 w-6 bg-gradient-to-l from-[#080808] to-transparent sm:hidden" />
           </div>
         </section>
 
         {/* Active Semester Course Section Header */}
-        <section className="space-y-4">
-          <div className="flex items-center justify-between border-b border-white/10 pb-3">
-            <div className="flex items-baseline gap-3">
-              <h2 className="text-lg font-medium text-white flex items-center gap-2">
-                <span>{activeSemester.name}</span>
+        <section className="space-y-3 sm:space-y-4">
+          <div className="flex items-center justify-between border-b border-white/10 pb-3 gap-2">
+            <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 min-w-0">
+              <h2 className="text-base sm:text-lg font-medium text-white flex items-center gap-1.5 truncate">
+                <span className="truncate">{activeSemester.name}</span>
                 <button
                   onClick={(e) => handleStartRename(activeSemester, e)}
-                  className="text-neutral-400 hover:text-white transition-colors p-0.5"
+                  className="text-neutral-400 hover:text-white transition-colors p-1 shrink-0"
                   title="Rename"
                 >
                   <Edit3 className="w-3.5 h-3.5" />
                 </button>
               </h2>
-              <span className="font-mono text-xs text-neutral-400">
+              <span className="font-mono text-[11px] sm:text-xs text-neutral-400 shrink-0">
                 {activeSemester.courses.length} courses · {activeSemesterStats.totalCredits} credits
               </span>
             </div>
 
             <button
               onClick={handleAddCourse}
-              className="flex items-center gap-1.5 px-3.5 py-2 bg-[#ed6829] hover:bg-[#ff7b3d] text-black font-mono text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 px-3 sm:px-3.5 py-2 bg-[#ed6829] hover:bg-[#ff7b3d] text-black font-mono text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer shrink-0"
             >
               <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
               <span>Add Course</span>
@@ -467,57 +472,57 @@ export default function App() {
           </div>
 
           {/* Courses List */}
-          <div className="space-y-2">
+          <div className="space-y-3 sm:space-y-2">
             {activeSemester.courses.map((course, index) => {
               const currentGrade = GRADES[course.gradeIndex];
-              const percentage = (course.gradeIndex / (GRADES.length - 1)) * 100;
 
               return (
                 <div
                   key={course.id}
-                  className="border border-white/10 bg-[#111111] hover:border-white/20 p-4 transition-colors group"
+                  className="border border-white/10 bg-[#111111] hover:border-white/20 p-3.5 sm:p-4 transition-colors group box-border w-full"
                 >
-                  {/* Top Row: Index, Name, Credits Selector, Grade Display, Delete */}
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-3">
-                    <div className="flex items-center gap-3 flex-1 w-full sm:w-auto">
-                      <span className="font-mono text-xs text-neutral-400 w-5">
-                        {String(index + 1).padStart(2, '0')}
-                      </span>
-                      <input
-                        type="text"
-                        value={course.name}
-                        onChange={(e) => handleUpdateCourse(course.id, 'name', e.target.value)}
-                        placeholder="Course Code / Title"
-                        className="bg-transparent font-medium text-sm sm:text-base text-white placeholder:text-neutral-600 focus:outline-none focus:border-b focus:border-[#ed6829] py-0.5 flex-1 min-w-[140px]"
-                      />
+                  {/* Top: Course Title / Code */}
+                  <div className="flex items-center gap-2.5 mb-2.5">
+                    <span className="font-mono text-xs text-neutral-400 w-5 shrink-0">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                    <input
+                      type="text"
+                      value={course.name}
+                      onChange={(e) => handleUpdateCourse(course.id, 'name', e.target.value)}
+                      placeholder="Course Code / Title"
+                      className="bg-transparent font-medium text-sm sm:text-base text-white placeholder:text-neutral-600 focus:outline-none focus:border-b focus:border-[#ed6829] py-0.5 flex-1 min-w-0"
+                    />
+                  </div>
+
+                  {/* Mid Bar: Hours Selector, Grade Display, Delete Button */}
+                  <div className="flex items-center justify-between gap-2 pb-2.5 mb-2.5 border-b border-white/5">
+                    {/* Credit Selector (Segmented control) */}
+                    <div className="flex items-center border border-white/10 bg-[#080808] text-[11px] font-mono">
+                      <span className="text-neutral-400 px-2 uppercase text-[9px] sm:text-[10px]">Hrs</span>
+                      {[
+                        { val: 0, label: '0' },
+                        { val: 4, label: '4' },
+                        { val: 8, label: '8' }
+                      ].map(c => (
+                        <button
+                          key={c.val}
+                          type="button"
+                          onClick={() => handleUpdateCourse(course.id, 'credits', c.val)}
+                          className={`px-3 py-1.5 sm:px-2.5 sm:py-1 min-h-[36px] sm:min-h-0 min-w-[32px] sm:min-w-0 font-semibold transition-colors cursor-pointer flex items-center justify-center ${
+                            course.credits === c.val
+                              ? 'bg-white text-black'
+                              : 'text-neutral-400 hover:text-white'
+                          }`}
+                        >
+                          {c.label}
+                        </button>
+                      ))}
                     </div>
 
-                    <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto">
-                      {/* Credit Selector (Segmented control) */}
-                      <div className="flex items-center border border-white/10 bg-[#080808] text-[11px] font-mono">
-                        <span className="text-neutral-400 px-2 uppercase text-[10px]">Hours</span>
-                        {[
-                          { val: 0, label: '0' },
-                          { val: 4, label: '4' },
-                          { val: 8, label: '8' }
-                        ].map(c => (
-                          <button
-                            key={c.val}
-                            type="button"
-                            onClick={() => handleUpdateCourse(course.id, 'credits', c.val)}
-                            className={`px-2.5 py-1 font-semibold transition-colors cursor-pointer ${
-                              course.credits === c.val
-                                ? 'bg-white text-black'
-                                : 'text-neutral-400 hover:text-white'
-                            }`}
-                          >
-                            {c.label}
-                          </button>
-                        ))}
-                      </div>
-
+                    <div className="flex items-center gap-2">
                       {/* Grade Value Display */}
-                      <div className="flex items-baseline gap-1.5 px-3 py-1 border border-white/10 bg-[#161616] font-mono">
+                      <div className="flex items-baseline gap-1.5 px-2.5 py-1 sm:px-3 border border-white/10 bg-[#161616] font-mono min-h-[36px] sm:min-h-0 items-center">
                         <span className="text-base font-bold text-[#ed6829]">{currentGrade.letter}</span>
                         <span className="text-xs text-neutral-400">{currentGrade.points.toFixed(1)}</span>
                       </div>
@@ -525,7 +530,7 @@ export default function App() {
                       {/* Remove Button */}
                       <button
                         onClick={() => handleRemoveCourse(course.id)}
-                        className="text-neutral-600 hover:text-rose-400 p-1.5 transition-colors cursor-pointer"
+                        className="text-neutral-400 hover:text-rose-400 p-2 min-h-[36px] min-w-[36px] flex items-center justify-center transition-colors cursor-pointer border border-transparent hover:border-white/10"
                         title="Delete Course"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -533,9 +538,9 @@ export default function App() {
                     </div>
                   </div>
 
-                  {/* Tactile Grade Selector Bar */}
-                  <div className="pt-2 border-t border-white/5 space-y-2">
-                    <div className="grid grid-cols-10 gap-1 font-mono text-center">
+                  {/* Responsive Grade Buttons (5 cols on mobile, 10 on desktop) */}
+                  <div className="space-y-2">
+                    <div className="grid grid-cols-5 sm:grid-cols-10 gap-1.5 sm:gap-1 font-mono text-center w-full">
                       {GRADES.map((g, gIdx) => {
                         const isSelected = course.gradeIndex === gIdx;
                         return (
@@ -543,7 +548,7 @@ export default function App() {
                             key={g.letter}
                             type="button"
                             onClick={() => handleUpdateCourse(course.id, 'gradeIndex', gIdx)}
-                            className={`py-1 text-[11px] font-mono transition-colors cursor-pointer border ${
+                            className={`py-2 sm:py-1 min-h-[38px] sm:min-h-0 text-xs sm:text-[11px] font-mono transition-colors cursor-pointer border flex items-center justify-center ${
                               isSelected
                                 ? 'border-[#ed6829] bg-[#ed6829] text-black font-bold'
                                 : 'border-white/5 bg-[#0a0a0a] text-neutral-400 hover:text-white hover:border-white/20'
@@ -566,7 +571,7 @@ export default function App() {
                         onChange={(e) => handleUpdateCourse(course.id, 'gradeIndex', parseInt(e.target.value))}
                         className="hardware-slider"
                       />
-                      <div className="flex justify-between items-center text-[10px] font-mono text-neutral-400 mt-1">
+                      <div className="flex justify-between items-center text-[10px] font-mono text-neutral-400">
                         <span>F (0.0)</span>
                         <span className="text-neutral-300 font-medium">{currentGrade.label}</span>
                         <span>A (4.0)</span>
@@ -580,23 +585,23 @@ export default function App() {
 
           <button
             onClick={handleAddCourse}
-            className="w-full py-3 border border-dashed border-white/10 hover:border-white/30 text-neutral-400 hover:text-white text-xs font-mono uppercase tracking-widest transition-colors flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full py-3.5 sm:py-3 border border-dashed border-white/10 hover:border-white/30 text-neutral-400 hover:text-white text-xs font-mono uppercase tracking-widest transition-colors flex items-center justify-center gap-2 cursor-pointer min-h-[44px]"
           >
             <Plus className="w-3.5 h-3.5" /> Add Course
           </button>
         </section>
 
         {/* Minimal Goal Target Strip */}
-        <section className="border border-white/10 bg-[#0c0c0c] p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 font-mono text-xs">
+        <section className="border border-white/10 bg-[#0c0c0c] p-3.5 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 font-mono text-xs">
           <div className="flex items-center gap-2 text-neutral-400">
             <span className="w-1.5 h-1.5 bg-[#ed6829]" />
             <span className="uppercase tracking-wider font-semibold text-white">Target Simulator:</span>
-            <span>What GPA do you need?</span>
+            <span className="text-neutral-400 hidden sm:inline">What GPA do you need?</span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center justify-between w-full sm:w-auto gap-3">
             <div className="flex items-center gap-1.5">
-              <span className="text-neutral-400 text-[11px]">TARGET</span>
+              <span className="text-neutral-400 text-[10px] uppercase">Target</span>
               <input
                 type="number"
                 step="0.01"
@@ -604,24 +609,24 @@ export default function App() {
                 max="4.0"
                 value={targetGPA}
                 onChange={(e) => setTargetGPA(e.target.value)}
-                className="w-16 bg-[#161616] border border-white/10 text-white font-mono text-xs px-2 py-1 outline-none focus:border-[#ed6829]"
+                className="w-16 bg-[#161616] border border-white/10 text-white font-mono text-xs px-2 py-1.5 sm:py-1 min-h-[36px] sm:min-h-0 outline-none focus:border-[#ed6829]"
               />
             </div>
 
             <div className="flex items-center gap-1.5">
-              <span className="text-neutral-400 text-[11px]">COURSES</span>
+              <span className="text-neutral-400 text-[10px] uppercase">Courses</span>
               <input
                 type="number"
                 min="1"
                 max="20"
                 value={upcomingCourses}
                 onChange={(e) => setUpcomingCourses(e.target.value)}
-                className="w-14 bg-[#161616] border border-white/10 text-white font-mono text-xs px-2 py-1 outline-none focus:border-[#ed6829]"
+                className="w-14 bg-[#161616] border border-white/10 text-white font-mono text-xs px-2 py-1.5 sm:py-1 min-h-[36px] sm:min-h-0 outline-none focus:border-[#ed6829]"
               />
             </div>
 
-            <div className="flex items-center gap-2 pl-2 border-l border-white/10">
-              <span className="text-neutral-400 text-[11px]">NEEDED AVG:</span>
+            <div className="flex items-center gap-2 pl-2 sm:border-l border-white/10">
+              <span className="text-neutral-400 text-[10px] uppercase">Needed Avg:</span>
               <span className="text-sm font-bold text-[#ed6829]">
                 {neededSemesterGPA ? `${neededSemesterGPA}` : '—'}
               </span>

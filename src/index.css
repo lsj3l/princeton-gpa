@@ -13,6 +13,11 @@
   color-scheme: dark;
 }
 
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
 body {
   font-family: var(--font-sans);
   background-color: #080808;
@@ -22,53 +27,65 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Custom precision hardware fader */
+/* Custom precision hardware fader with comfortable touch area */
 .hardware-slider {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  height: 2px;
-  background: #222222;
+  height: 16px;
+  background: transparent;
   outline: none;
   cursor: pointer;
+}
+
+.hardware-slider::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 3px;
+  background: #262626;
+  border-radius: 1px;
 }
 
 .hardware-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 12px;
-  height: 12px;
+  width: 18px;
+  height: 18px;
+  margin-top: -7.5px;
   border-radius: 2px;
   background: #f5f4f1;
   border: 1px solid #080808;
-  box-shadow: 0 0 0 1px #ed6829;
+  box-shadow: 0 0 0 1.5px #ed6829;
   cursor: ew-resize;
   transition: transform 0.1s ease, background 0.1s ease;
 }
 
-.hardware-slider::-webkit-slider-thumb:hover {
-  transform: scale(1.25);
+.hardware-slider::-webkit-slider-thumb:hover,
+.hardware-slider::-webkit-slider-thumb:active {
+  transform: scale(1.2);
   background: #ed6829;
 }
 
-.hardware-slider::-webkit-slider-thumb:active {
-  transform: scale(1.35);
-  background: #ed6829;
+.hardware-slider::-moz-range-track {
+  width: 100%;
+  height: 3px;
+  background: #262626;
+  border-radius: 1px;
 }
 
 .hardware-slider::-moz-range-thumb {
-  width: 12px;
-  height: 12px;
+  width: 18px;
+  height: 18px;
   border-radius: 2px;
   background: #f5f4f1;
   border: 1px solid #080808;
-  box-shadow: 0 0 0 1px #ed6829;
+  box-shadow: 0 0 0 1.5px #ed6829;
   cursor: ew-resize;
   transition: transform 0.1s ease, background 0.1s ease;
 }
 
-.hardware-slider::-moz-range-thumb:hover {
-  transform: scale(1.25);
+.hardware-slider::-moz-range-thumb:hover,
+.hardware-slider::-moz-range-thumb:active {
+  transform: scale(1.2);
   background: #ed6829;
 }
 
