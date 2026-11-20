@@ -1,11 +1,12 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  --color-princeton-orange: #E77500;
-  --color-princeton-accent: #FF8A00;
-  --color-princeton-dark: #C46000;
+  --font-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, Menlo, Monaco, Consolas, monospace;
+  --color-orange: #ed6829;
+  --color-surface: #111111;
+  --color-surface-hover: #171717;
+  --color-surface-subtle: #0d0d0d;
 }
 
 :root {
@@ -14,68 +15,68 @@
 
 body {
   font-family: var(--font-sans);
-  background-color: #09090c;
-  color: #ededef;
+  background-color: #080808;
+  color: #f5f4f1;
   min-height: 100vh;
   margin: 0;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Custom modern slider */
-.grade-slider::-webkit-slider-thumb {
+/* Custom precision hardware fader */
+.hardware-slider {
   -webkit-appearance: none;
   appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 9999px;
-  background: #ffffff;
-  border: 4px solid #E77500;
-  cursor: grab;
-  box-shadow: 0 0 12px rgba(231, 117, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.4);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  width: 100%;
+  height: 2px;
+  background: #222222;
+  outline: none;
+  cursor: pointer;
 }
 
-.grade-slider::-webkit-slider-thumb:active {
-  cursor: grabbing;
-  transform: scale(1.15);
-  box-shadow: 0 0 18px rgba(231, 117, 0, 0.9), 0 3px 6px rgba(0, 0, 0, 0.6);
+.hardware-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  background: #f5f4f1;
+  border: 1px solid #080808;
+  box-shadow: 0 0 0 1px #ed6829;
+  cursor: ew-resize;
+  transition: transform 0.1s ease, background 0.1s ease;
 }
 
-.grade-slider::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
-  border-radius: 9999px;
-  background: #ffffff;
-  border: 4px solid #E77500;
-  cursor: grab;
-  box-shadow: 0 0 12px rgba(231, 117, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.4);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+.hardware-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.25);
+  background: #ed6829;
 }
 
-.grade-slider::-moz-range-thumb:active {
-  cursor: grabbing;
-  transform: scale(1.15);
+.hardware-slider::-webkit-slider-thumb:active {
+  transform: scale(1.35);
+  background: #ed6829;
 }
 
-/* Hide scrollbar while keeping scrollability */
+.hardware-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  background: #f5f4f1;
+  border: 1px solid #080808;
+  box-shadow: 0 0 0 1px #ed6829;
+  cursor: ew-resize;
+  transition: transform 0.1s ease, background 0.1s ease;
+}
+
+.hardware-slider::-moz-range-thumb:hover {
+  transform: scale(1.25);
+  background: #ed6829;
+}
+
+/* Hide scrollbars */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
-}
-
-/* Smooth glass effect */
-.glass-panel {
-  background: rgba(18, 18, 24, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.glass-panel-subtle {
-  background: rgba(24, 24, 32, 0.5);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
 }
